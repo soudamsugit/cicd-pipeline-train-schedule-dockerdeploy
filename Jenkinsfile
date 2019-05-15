@@ -24,7 +24,7 @@ pipeline {
         stage ('docker push') {
             steps {
                 when 'master'
-                {
+            }
             steps {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', 'docker_hub_login'){
