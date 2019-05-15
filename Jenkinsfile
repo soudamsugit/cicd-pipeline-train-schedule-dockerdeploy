@@ -31,9 +31,7 @@ pipeline {
                         app.push("${env.BUILD_NUMBER}")
                         app.push("latest")
                     }
-                    
                 }
-            }
             }
         }
         stage('Docker Deploy') {
@@ -49,7 +47,6 @@ pipeline {
                         try {
                           sh "sshpass -p $PASSWORD -v ssh -o StrictHostKeyChecking=no $USERNAME@$prod_ip \"docker stop train-schedule\""
                           sh "sshpass -p $PASSWORD -v ssh -o StrictHostkeyChecking=no $USERNAME@$prod_ip \"docker rm train-schedule\""
-                            
                         }
                         catch (err) {
                             'caught error: $err'
@@ -61,4 +58,3 @@ pipeline {
         }
     }
 }
-
