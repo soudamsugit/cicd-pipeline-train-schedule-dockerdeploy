@@ -9,8 +9,8 @@ pipeline {
             }
         }
         stage('docker build') {
-            steps {
-                when 'master'
+            when {
+                branch 'master'
             }
             steps {
                 script {
@@ -22,8 +22,8 @@ pipeline {
                 {
         }
         stage ('docker push') {
-            steps {
-                when 'master'
+            when {
+                branch 'master'
             }
             steps {
                 script {
@@ -37,8 +37,8 @@ pipeline {
             }
         }
         stage('Docker Deploy') {
-            steps {
-                when 'master'
+            when {
+                branch 'master'
             }
             steps {
                 input 'deploy to production?'
