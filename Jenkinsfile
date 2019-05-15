@@ -14,12 +14,12 @@ pipeline {
             }
             steps {
                 script {
-                    app=docker.build("soudamsu/trainschedule")
+                    app = docker.build("sureshsouven/trainschedule")
                     app.inside {
                         sh 'echo $(curl localhost:8080)'
                     }
                 }
-                {
+            }
         }
         stage ('docker push') {
             when {
@@ -45,7 +45,7 @@ pipeline {
                 milestone (1)
                 withCredentials([usernamePassword(credentialsId: 'webserver_login', usernameVarialbe: 'USERNAME', passwordVariable: 'PASSWORD')]){
                     script {
-                        sh "sshpass -p $PASSWORD -v ssh -o StrictHostKeyChecking=no $USERNAME@$prod_ip \"docker pull soudamsu/train-schedule:${env.BUILD_NUMBER})\""
+                        sh "sshpass -p $PASSWORD -v ssh -o StrictHostKeyChecking=no $USERNAME@$prod_ip \"docker pull sureshsouven/train-schedule:${env.BUILD_NUMBER})\""
                         try {
                           sh "sshpass -p $PASSWORD -v ssh -o StrictHostKeyChecking=no $USERNAME@$prod_ip \"docker stop train-schedule\""
                           sh "sshpass -p $PASSWORD -v ssh -o StrictHostkeyChecking=no $USERNAME@$prod_ip \"docker rm train-schedule\""
@@ -54,7 +54,7 @@ pipeline {
                         catch (err) {
                             'caught error: $err'
                         }
-                        sh "sshpass -p $PASSWORD -v ssh -o StrictHostKeyChecking=no $USERNAME@$prod_ip \"docker run --restart always --name train-schedule -p 8080:8080 -d  soudamsu/train-schedule:${env.BUILD_NUMBER}\"" 
+                        sh "sshpass -p $PASSWORD -v ssh -o StrictHostKeyChecking=no $USERNAME@$prod_ip \"docker run --restart always --name train-schedule -p 8080:8080 -d  sureshsouven/train-schedule:${env.BUILD_NUMBER}\"" 
                     }
                 }
             }
